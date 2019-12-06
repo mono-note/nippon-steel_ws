@@ -46,6 +46,7 @@ var doCheerio = function (html,uri) {
   $('#aside').remove();
   let body =''
   let hasAncher = false;
+  let g = ''
   $('*').each(function(){
 
     if($(this).is('h1.heading01')){
@@ -91,9 +92,25 @@ var doCheerio = function (html,uri) {
       if (typeof src != "undefined")
       {
         if (!src.match(/common/)) {
+          if($(this).parents('.figureContainer').html() && $(this).parents('.threeFrameColumn').length==0){
+            let figureCon = $(this).parents('.figureContainer')
+            if(figureCon.children().hasClass('figureLeft')){
+              let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
+              body += partlist.card_text_and_image_left(src,alt,cap,txt)
+            }
+            if(figureCon.children().hasClass('figureRight')){
+              let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
+              body += partlist.card_text_and_image_right(src,alt,cap,txt)
+
+            }
+
+
+          }else{
           ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
           body += partlist_img_01(src.replace(/images/g, 'img'), alt, cap)
+          }
         }
+
       }
     }
     if ($(this).is('a')) {
