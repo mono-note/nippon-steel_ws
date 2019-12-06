@@ -77,21 +77,23 @@ var doCheerio = function (html,uri) {
     }
     if($(this).is('p')){
       //text4
-      if (!$(this).children().is('a')) {
-      body += partlist_text(ws.clean($(this).html()),4)
+      if (!$(this).children().is('a')
+       && !$(this).is('.caption01')) {
+        body += partlist_text(ws.clean($(this).html()),4)
       }
 
     }
     if ($(this).is('img')) {
       let src = $(this).attr('src')
       let alt = $(this).attr('alt')
+      let cap = $(this).next().is('.caption01')?ws.clean($(this).next().html()):''
+
       if (typeof src != "undefined")
       {
         if (!src.match(/common/)) {
           ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
-          body += partlist_img_01(src.replace(/images/g, 'img'), alt, '')
+          body += partlist_img_01(src.replace(/images/g, 'img'), alt, cap)
         }
-
       }
     }
     if ($(this).is('a')) {
@@ -108,6 +110,20 @@ var doCheerio = function (html,uri) {
             body += partlist.links_02($(this).text(), $(this).attr('href'));
           }
         }
+      }
+    }
+    if($(this).is('.twoColumn')){
+      if($(this).children().length == 2){
+        $(this).children().each(function(){
+          if($(this).children().is('img')){
+            let src = $(this).children().attr('src')
+            let alt = $(this).children().attr('alt')
+            let cap = $(this).children().next()!=null?$(this).children().next().html():''
+            if(cap != ''){
+              // '<figcaption>'+cap+'</figcaption>'
+            }
+          }
+        })
       }
     }
     if($(this).is('table')){
