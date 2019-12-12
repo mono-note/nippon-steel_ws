@@ -15,13 +15,8 @@ const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v
 
 const isAuth = false;
 
-const boxReset = true;
-let templateFile =''
-if(boxReset){
-  templateFile  = 'dummy_flex.html'
-}else{
-templateFile  = 'dummy.html'
-}
+const boxReset = false;
+let templateFile = 'dummy.html'
 
 // load uri in csv to promises
 const promises = csvUri.map(url => requestp(url).catch(err => {
@@ -120,8 +115,7 @@ var doCheerio = function (html,uri) {
             if(figureCon.children().hasClass('figureRight')){
               let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
               ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
-              boy += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
-
+              body += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
             }
 
 
@@ -138,7 +132,7 @@ var doCheerio = function (html,uri) {
       if(href.match(/\.pdf/)){
         let pdfPath = href.split('/').slice(1,-1).join('/')+'/'
         ws.createDir('/'+dPDF+pdfPath)
-        ws.getPDF(root+href,{directory:dPDF+pdfPath},()=>{})
+        ws.getPDF(root+href,{directory:dPDF+pdfPath},(err)=>{ if(err) throw err})
       }
       if (!$(this).parent().is('li')) {
         //link2
@@ -178,7 +172,7 @@ var doCheerio = function (html,uri) {
         if($(this).children().is('a')){
           $(this).children().addClass('link-pdf-02')
         }
-        body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>（PDF /g, '<span>（') + '</span></a></li>'
+        body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>（PDF /g, '<span>（').replace(/\（PDF/g,'<span>（').replace(/\<\/a>/g,'') + '</span></a></li>'
       })
       body += '</ul>'
     }

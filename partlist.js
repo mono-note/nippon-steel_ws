@@ -188,7 +188,7 @@ const box_image_3_col = (img) => {
   return template + arr +`</div>\n</div>`
 }
 const card_text_and_image_right = (src,alt,cap,txt)=>{
-  return '<div claleft-detail"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
+  return '<div class="box-card-detail"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
 }
 
 const card_text_and_image_left = (src,alt,cap,txt)=>{
