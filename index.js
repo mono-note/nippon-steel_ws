@@ -14,9 +14,15 @@ let csv_data = fs.readFileSync(csvFile, { encoding : 'utf8'});
 const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v => v.uri.replace(/ +/g,''));
 
 const isAuth = false;
+
 const boxReset = true;
-// const templateFile  = 'dummy.html'
-const templateFile  = 'dummy_flex.html'
+let templateFile =''
+if(boxReset){
+  templateFile  = 'dummy_flex.html'
+}else{
+templateFile  = 'dummy.html'
+}
+
 // load uri in csv to promises
 const promises = csvUri.map(url => requestp(url).catch(err => {
   errMsg = err.options.uri;
@@ -46,7 +52,9 @@ var doCheerio = function (html,uri) {
   const $ = cheerio.load(content);
 
   $('#aside').remove();
+  if(boxReset){
   $('.relatedBox01').remove()
+  }
   let body =''
   let hasAncher = false;
   let g = ''
