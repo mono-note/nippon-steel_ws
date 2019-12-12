@@ -14,7 +14,9 @@ let csv_data = fs.readFileSync(csvFile, { encoding : 'utf8'});
 const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v => v.uri.replace(/ +/g,''));
 
 const isAuth = false;
-
+const boxReset = true;
+// const templateFile  = 'dummy.html'
+const templateFile  = 'dummy_flex.html'
 // load uri in csv to promises
 const promises = csvUri.map(url => requestp(url).catch(err => {
   errMsg = err.options.uri;
@@ -44,11 +46,12 @@ var doCheerio = function (html,uri) {
   const $ = cheerio.load(content);
 
   $('#aside').remove();
+  $('.relatedBox01').remove()
   let body =''
   let hasAncher = false;
   let g = ''
-  $('*').each(function(){
 
+  $('*').each(function(){
     if($(this).is('h1.heading01')){
       body += partlist.box_title_1($(this).text())
     }
@@ -80,7 +83,14 @@ var doCheerio = function (html,uri) {
       //text4
       if (!$(this).children().is('a')
        && !$(this).is('.caption01')) {
-        body += partlist_text(ws.clean($(this).html()),4)
+         if($(this).hasClass('aR')){
+          body += partlist.text_cmn(ws.clean($(this).html()),4,'right')
+         }else if($(this).hasClass('aL')){
+          body += partlist.text_cmn(ws.clean($(this).html()),4,'left')
+         }else{
+
+        body += partlist.text_cmn(ws.clean($(this).html()),4)
+      }
       }
 
     }
@@ -96,11 +106,13 @@ var doCheerio = function (html,uri) {
             let figureCon = $(this).parents('.figureContainer')
             if(figureCon.children().hasClass('figureLeft')){
               let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
-              body += partlist.card_text_and_image_left(src,alt,cap,txt)
+              ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+              body += partlist.card_text_and_image_left(src.replace(/images/g, 'img'),alt,cap,txt)
             }
             if(figureCon.children().hasClass('figureRight')){
               let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
-              body += partlist.card_text_and_image_right(src,alt,cap,txt)
+              ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+              boy += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
 
             }
 
@@ -169,13 +181,13 @@ var doCheerio = function (html,uri) {
           $(this).children().remove('img')
           let hasPDF = $(this).children().attr('href').match(/\.pdf/);
           let hasDOC = $(this).children().attr('href').match(/\.doc/);
-          if(hasPDF){
+          if (hasPDF) {
             $(this).children().addClass('link-pdf-01')
-            body += '<li>'+ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
+            body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
 
-          }else if(hasDOC){
+          } else if (hasDOC) {
             $(this).children().addClass('link-doc-01')
-            body += '<li>'+ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
+            body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
           }
         })
         body += '</ul>'
@@ -190,11 +202,15 @@ var doCheerio = function (html,uri) {
     }
 
   })
+  if(boxReset) {
+    body =  '<div class="box-reset-counter">' +body + '</div>'
+  }
 
   //////////////create file
-  let dummy = fs.readFileSync('dummy.html','utf8',()=>{})
+  let dummy = fs.readFileSync(templateFile,'utf8',()=>{})
   dummy = dummy.replace(/########content####/g,body)
   ws.writeHTML(dummy,distPath)
+  console.log(distPath+' done');
 }
 
 
@@ -225,9 +241,7 @@ partlist_title_6 = (txt) => {
   return `<h6 class="ttl-cmn-06">` + txt + `</h6>`
 }
 
-partlist_text = (txt,n)=>{
-  return `<p class="txt-cmn-0`+n+`">`+txt+`</p>`
-}
+
 
 
 partlist_img_01 = (src,alt,figcap)=>{
