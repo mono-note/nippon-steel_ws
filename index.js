@@ -80,7 +80,15 @@ var doCheerio = function (html,uri) {
       //text4
       if (!$(this).children().is('a')
        && !$(this).is('.caption01')) {
-        body += partlist_text(ws.clean($(this).html()),4)
+         if($(this).hasClass('aR')){
+          body += partlist.txt_cmn(ws.clean($(this).html()),4,'right')
+         }
+         else if($(this).parent().is('.detail')){
+
+         }
+         else{
+          body += partlist.txt_cmn(ws.clean($(this).html()),4)
+         }
       }
 
     }
@@ -225,9 +233,6 @@ partlist_title_6 = (txt) => {
   return `<h6 class="ttl-cmn-06">` + txt + `</h6>`
 }
 
-partlist_text = (txt,n)=>{
-  return `<p class="txt-cmn-0`+n+`">`+txt+`</p>`
-}
 
 
 partlist_img_01 = (src,alt,figcap)=>{
