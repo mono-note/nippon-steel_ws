@@ -71,22 +71,22 @@ var doCheerio = function (html,uri) {
     }
     if($(this).is('h2.heading02')){
       if(hasAncher){
-        body += partlist_title_2_bdb($(this).text(),"anc")
+        body += partlist.title_2_bdb($(this).text(),"anc")
       }else{
-        body += partlist_title_2_bdb($(this).text(),'')
+        body += partlist.title_2_bdb($(this).text(),'')
       }
     }
     if($(this).is('h3.heading03')){
-      body += partlist_title_3($(this).text())
+      body += partlist.title_cmn($(this).text(),3)
     }
     if($(this).is('h4.heading04')){
-      body += partlist_title_4($(this).text())
+      body += partlist.title_cmn($(this).text(),4)
     }
     if($(this).is('p')){
       if (!$(this).children().is('a')
        && !$(this).is('.caption01')) {
          if($(this).hasClass('aR')){
-          body += partlist.txt_cmn(ws.clean($(this).html()),4,'right')
+          body += partlist.text_cmn(ws.clean($(this).html()),4,'right')
          }
          else if($(this).hasClass('aL')){
           body += partlist.text_cmn(ws.clean($(this).html()),4,'left')
@@ -96,7 +96,7 @@ var doCheerio = function (html,uri) {
          }
          else{
           //text4
-          body += partlist.txt_cmn(ws.clean($(this).html()),4)
+          body += partlist.text_cmn(ws.clean($(this).html()),4)
          }
       }
 
@@ -104,10 +104,11 @@ var doCheerio = function (html,uri) {
     if ($(this).is('img')) {
       let src = $(this).attr('src')
       let alt = $(this).attr('alt')
-      let cap = $(this).next().is('.caption01')?ws.clean($(this).next().html()):''
+      let cap = $(this).next().is('.caption01') ? ws.clean($(this).next().html()) : ''
 
       if (typeof src != "undefined")
       {
+        if(typeof alt == "undefined"){alt = ''}
         if (!src.match(/common/)) {
           if($(this).parents('.figureContainer').html() && $(this).parents('.threeFrameColumn').length==0){
             let figureCon = $(this).parents('.figureContainer')
@@ -122,10 +123,9 @@ var doCheerio = function (html,uri) {
               body += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
             }
 
-
           }else{
           ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
-          body += partlist_img_01(src.replace(/images/g, 'img'), alt, cap)
+          body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
           }
         }
 
@@ -222,36 +222,6 @@ var doCheerio = function (html,uri) {
 
 
 //////////////////////////////// partlist
-
-
-
-partlist_title_1 = (txt) => {
-  return `<h1 class="ttl-cmn-01">` + txt + `</h1>`
-}
-partlist_title_2 = (txt) => {
-  return `<h2 class="ttl-cmn-02">` + txt + `</h2>`
-}
-partlist_title_2_bdb = (txt,id) => {
-  return id != '' ?`<h2 id="` + id + `" class="ttl-cmn-02 bdb">` + txt + `</h2>`: `<h2 class="ttl-cmn-02 bdb">` + txt + `</h2>`
-}
-partlist_title_3 = (txt) => {
-  return `<h3 class="ttl-cmn-03">` + txt + `</h3>`
-}
-partlist_title_4 = (txt) => {
-  return `<h4 class="ttl-cmn-04">` + txt + `</h4>`
-}
-partlist_title_5 = (txt) => {
-  return `<h5 class="ttl-cmn-05">` + txt + `</h5>`
-}
-partlist_title_6 = (txt) => {
-  return `<h6 class="ttl-cmn-06">` + txt + `</h6>`
-}
-
-partlist_img_01 = (src,alt,figcap)=>{
-  let tmp ='<figure class="img-cmn-01"><img src="'+src+'" alt="'+alt+'">'
-  tmp += figcap!=''? '<figcaption>'+figcap+'</figcaption></figure>':'</figure>'
-  return tmp
-}
 
 partlist_anchor_01 = (link)=>{
   let li =''

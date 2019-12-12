@@ -1,17 +1,24 @@
-const text_cmn = (txt,n,align)=>{
-  if(align == 'right'){
-  return `<p class="txt-cmn-0`+n+` s-ta-r">`+txt+`</p>`
-  }else if(align == 'left'){
-    return `<p class="txt-cmn-0`+n+` s-ta-l">`+txt+`</p>`
-  }else if(align == 'center'){
-    return `<p class="txt-cmn-0`+n+` s-ta-c">`+txt+`</p>`
-  }else{
-  return `<p class="txt-cmn-0`+n+`">`+txt+`</p>`
+const text_cmn = (txt, n, align) => {
+  if (align == "right") {
+    return `<p class="txt-cmn-0` + n + ` s-ta-r">` + txt + `</p>`;
+  } else if (align == "left") {
+    return `<p class="txt-cmn-0` + n + ` s-ta-l">` + txt + `</p>`;
+  } else if (align == "center") {
+    return `<p class="txt-cmn-0` + n + ` s-ta-c">` + txt + `</p>`;
+  } else {
+    return `<p class="txt-cmn-0` + n + `">` + txt + `</p>`;
   }
-}
+};
 
 const box_title_1 = (txt) => {
   return `<div class="box-cmn-title-03"><div class="box-title-in"><div class="box-title-left"><h1 class="ttl-cmn-01">` + txt + `</h1></div></div></div>`
+}
+
+const title_cmn = (txt,n) =>{
+  return `<h` + n + ` class="ttl-cmn-0` + n + `">` + txt + `</h` + n + `>`;
+}
+const title_2_bdb = (txt,id) =>{
+  return id != '' ?`<h2 id="` + id + `" class="ttl-cmn-02 bdb">` + txt + `</h2>`: `<h2 class="ttl-cmn-02 bdb">` + txt + `</h2>`
 }
 
 const text_tooltips = (txt1, txt2) => {
@@ -176,7 +183,11 @@ const btn_white_small_02 = (text, link) => {
 const btn_white_small_icon_02 = (text, link) => {
   return `<p class="btn-cmn-07 small ico-nw"><a href="`+ link +`" target="_blank"><span>`+ text +`</span></a></p>`
 }
-
+const image_01 = (src,alt,figcap)=>{
+  let tmp ='<figure class="img-cmn-01"><img src="'+src+'" alt="'+alt+'">'
+'</figure>'
+  return tmp
+}
 const box_image_3_col = (img) => {
   let template = '<div class="box-image-col container-fluid">\n<div class="row">\n'
 
@@ -194,11 +205,15 @@ const card_text_and_image_right = (src,alt,cap,txt)=>{
 const card_text_and_image_left = (src,alt,cap,txt)=>{
   return '<div class="box-card-detail mod-image-left"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
 }
+
 module.exports = {
-  box_title_1:box_title_1,
-  text_tooltips:text_tooltips,
-  links_02:links_02,
-  card_text_and_image_right:card_text_and_image_right,
-  card_text_and_image_left:card_text_and_image_left,
-  text_cmn:text_cmn
-}
+  box_title_1,
+  text_tooltips,
+  links_02,
+  card_text_and_image_right,
+  card_text_and_image_left,
+  text_cmn,
+  image_01,
+  title_cmn,
+  title_2_bdb
+};
