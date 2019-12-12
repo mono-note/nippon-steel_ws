@@ -1,3 +1,15 @@
+const text_cmn = (txt,n,align)=>{
+  if(align == 'right'){
+  return `<p class="txt-cmn-0`+n+` s-ta-r">`+txt+`</p>`
+  }else if(align == 'left'){
+    return `<p class="txt-cmn-0`+n+` s-ta-l">`+txt+`</p>`
+  }else if(align == 'center'){
+    return `<p class="txt-cmn-0`+n+` s-ta-c">`+txt+`</p>`
+  }else{
+  return `<p class="txt-cmn-0`+n+`">`+txt+`</p>`
+  }
+}
+
 const box_title_1 = (txt) => {
   return `<div class="box-cmn-title-03"><div class="box-title-in"><div class="box-title-left"><h1 class="ttl-cmn-01">` + txt + `</h1></div></div></div>`
 }
@@ -176,7 +188,7 @@ const box_image_3_col = (img) => {
   return template + arr +`</div>\n</div>`
 }
 const card_text_and_image_right = (src,alt,cap,txt)=>{
-  return '<div claleft-detail"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
+  return '<div class="box-card-detail"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
 }
 
 const card_text_and_image_left = (src,alt,cap,txt)=>{
@@ -187,5 +199,6 @@ module.exports = {
   text_tooltips:text_tooltips,
   links_02:links_02,
   card_text_and_image_right:card_text_and_image_right,
-  card_text_and_image_left:card_text_and_image_left
+  card_text_and_image_left:card_text_and_image_left,
+  text_cmn:text_cmn
 }
