@@ -15,8 +15,8 @@ const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v
 
 const isAuth = false;
 
-const boxReset = false;
-let templateFile = 'dummy.html'
+const boxReset = true;
+let templateFile = 'dummy_tech_en.html'
 
 // load uri in csv to promises
 const promises = csvUri.map(url => requestp(url).catch(err => {
@@ -212,7 +212,11 @@ var doCheerio = function (html,uri) {
         if($(this).children().is('a')){
           $(this).children().addClass('link-pdf-02')
         }
-        body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>（PDF /g, '<span>（').replace(/\（PDF/g,'<span>（').replace(/\<\/a>/g,'') + '</span></a></li>'
+        body += '<li>' + ws.clean($(this).html())
+        .replace(/\<\/a>（PDF /g, '<span>（')
+        .replace(/\（PDF/g,'<span>（')
+        .replace(/\(PDF/g,'<span>(')
+        .replace(/\<\/a>/g,'') + '</span></a></li>'
       })
       body += '</ul>'
     }
