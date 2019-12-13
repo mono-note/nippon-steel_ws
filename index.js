@@ -69,6 +69,7 @@ var doCheerio = function (html,uri) {
         body += partlist_anchor_01(anclist)
         hasAncher= true;
     }
+
     if($(this).is('h2.heading02')){
       if(hasAncher){
         body += partlist.title_2_bdb($(this).text(),"anc")
@@ -123,12 +124,47 @@ var doCheerio = function (html,uri) {
               body += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
             }
 
-          }else{
-          ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
-          body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
+          }
+          else if($(this).parents('.relatedBox01').length >0){
+
+          }
+          else{
+            ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+            body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
           }
         }
 
+      }
+    }
+    if($(this).is('.relatedBox01')){
+      if($(this).find('.heading')){
+        body += partlist.title_cmn($(this).find('.heading').text(),4)
+      }
+      if($(this).children().is('.threeFrameColumn')){
+        let card = $(this).find('.threeFrameColumn').children()
+        let col = card.length;
+        let card_data = []
+        card.each(function(){
+          if($(this).is('.col')){
+            let aText = $(this).find('a').text()
+            let aHref = $(this).find('a').attr('href')
+            let img =[]
+            if($(this).find('a').children().is('img')){
+              img.push({
+                src:$(this).find('a').children().attr('src'),
+                alt:$(this).find('a').children().attr('alt'),
+              })
+            }
+            card_data.push({
+              link: {
+                text:aText,
+                link:aHref
+              },
+              img
+            })
+          }
+        })
+       body+= partlist.card_link_03(card_data)
       }
     }
     if ($(this).is('a')) {

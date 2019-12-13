@@ -185,7 +185,7 @@ const btn_white_small_icon_02 = (text, link) => {
 }
 const image_01 = (src,alt,figcap)=>{
   let tmp ='<figure class="img-cmn-01"><img src="'+src+'" alt="'+alt+'">'
-'</figure>'
+  tmp += figcap!=''?'<figcaption>'+figcap+'</figcaption></figure>':'</figure>'
   return tmp
 }
 const box_image_3_col = (img) => {
@@ -198,6 +198,20 @@ const box_image_3_col = (img) => {
 
   return template + arr +`</div>\n</div>`
 }
+const card_link_03  = (data)=>{
+let k = '<div class="box-cmn-02"><div class="row">'
+
+  data.forEach(function(v){
+    k+= '<div class="col-lg-6 col-xl-4"><div class="box-cmn-card-02"><div class="inner">'
+    if(v.img.length){
+      k+= '<figure class="image"><img src="'+v.img[0].src+'" alt="'+v.img[0].alt+'"></figure>'
+    }
+    k+='<div class="detail"><ul class="list-links-01"><li><a href="'+v.link.link+'" class="link-cmn-01">'+v.link.text+'</a></li></ul></div></div></div></div>'
+  })
+  k+='</div></div>'
+  return k
+}
+
 const card_text_and_image_right = (src,alt,cap,txt)=>{
   return '<div class="box-card-detail"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
 }
@@ -215,5 +229,6 @@ module.exports = {
   text_cmn,
   image_01,
   title_cmn,
-  title_2_bdb
+  title_2_bdb,
+  card_link_03
 };
