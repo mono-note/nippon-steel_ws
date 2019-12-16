@@ -15,7 +15,7 @@ const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v
 
 const isAuth = false;
 
-const boxReset = true;
+const boxReset = false;
 let templateFile = 'dummy_csr.html'
 
 // load uri in csv to promises
@@ -47,9 +47,7 @@ var doCheerio = function (html,uri) {
   const $ = cheerio.load(content);
 
   $('#aside').remove();
-  if(boxReset){
-  $('.relatedBox01').remove()
-  }
+  if(boxReset){$('.relatedBox01').remove()}
   let body =''
   let hasAncher = false;
   let g = ''
@@ -83,6 +81,9 @@ var doCheerio = function (html,uri) {
     if($(this).is('h4.heading04')){
       body += partlist.title_cmn($(this).text(),4)
     }
+    if($(this).is('h5.heading05')){
+      body += partlist.title_cmn($(this).text(),5)
+    }
     if($(this).is('p')){
       if (!$(this).children().is('a')
        && !$(this).is('.caption01')) {
@@ -114,16 +115,20 @@ var doCheerio = function (html,uri) {
           if($(this).parents('.figureContainer').html() && $(this).parents('.threeFrameColumn').length==0){
             let figureCon = $(this).parents('.figureContainer')
             if(figureCon.children().hasClass('figureLeft')){
-              let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
+              let txt = figureCon.children('.detail').html()?ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">'):''
               ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
               body += partlist.card_text_and_image_left(src.replace(/images/g, 'img'),alt,cap,txt)
+
             }
-            if(figureCon.children().hasClass('figureRight')){
-              let txt = ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">')
+            else if(figureCon.children().hasClass('figureRight')){
+              let txt = figureCon.children('.detail').html()?ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">'):''
               ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
               body += partlist.card_text_and_image_right(src.replace(/images/g, 'img'),alt,cap,txt)
             }
-
+            else{
+              ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+              body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
+            }
           }
           else if($(this).parents('.relatedBox01').length >0){
 
@@ -167,6 +172,7 @@ var doCheerio = function (html,uri) {
        body+= partlist.card_link_03(card_data)
       }
     }
+    //link
     if ($(this).is('a')) {
       let href = $(this).attr('href')
       if(href.match(/\.pdf/)){
@@ -181,6 +187,10 @@ var doCheerio = function (html,uri) {
             body += partlist.links_02($(this).text(), $(this).attr('href'));
           }
         }
+      }
+      /// CSR contact
+      if($(this).attr('href').match(/\/csr\/contact/)){
+        body +=  '<div class="box-cmn-links-03 just-right"><a href="/csr/contact/" class="link-cmn-01">ご意見・ご感想はこちらへ</a></div>'
       }
     }
     if($(this).is('.twoColumn')){
@@ -212,11 +222,15 @@ var doCheerio = function (html,uri) {
         if($(this).children().is('a')){
           $(this).children().addClass('link-pdf-02')
         }
+
         body += '<li>' + ws.clean($(this).html())
         .replace(/\<\/a>（PDF /g, '<span>（')
         .replace(/\（PDF/g,'<span>（')
         .replace(/\(PDF/g,'<span>(')
-        .replace(/\<\/a>/g,'') + '</span></a></li>'
+        .replace(/\<\/a>/g,'')
+
+        body += $(this).children().is('a')?'</span></a></li>':'</li>'
+
       })
       body += '</ul>'
     }
