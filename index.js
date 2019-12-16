@@ -16,7 +16,7 @@ const csvUri = csvjson.toObject(csv_data, { delimiter : ',',  quote: '"'}).map(v
 const isAuth = false;
 
 const boxReset = true;
-let templateFile = 'dummy_tech_en.html'
+let templateFile = 'dummy_csr.html'
 
 // load uri in csv to promises
 const promises = csvUri.map(url => requestp(url).catch(err => {
@@ -172,7 +172,7 @@ var doCheerio = function (html,uri) {
       if(href.match(/\.pdf/)){
         let pdfPath = href.split('/').slice(1,-1).join('/')+'/'
         ws.createDir('/'+dPDF+pdfPath)
-        ws.getPDF(root+href,{directory:dPDF+pdfPath},(err)=>{ if(err) throw err})
+        // ws.getPDF(root+href,{directory:dPDF+pdfPath},(err)=>{ if(err) throw err})
       }
       if (!$(this).parent().is('li')) {
         //link2
