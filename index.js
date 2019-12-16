@@ -245,6 +245,13 @@ var doCheerio = function (html,uri) {
         })
         body += '</ul>'
       }
+      if ($(this).is('.normalList02')) {
+        body += '<ul class="list-cmn-01">'
+        $(this).each(function () {
+          body += ws.clean($(this).html())
+        })
+        body += '</ul>'
+      }
     }
 
   })
