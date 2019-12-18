@@ -96,6 +96,9 @@ var doCheerio = function (html,uri) {
          else if($(this).parent().is('.detail')){
           //pass for card cmn
          }
+         else if($(this).is('.txLead01')){
+          body += partlist.text_cmn(ws.clean($(this).html()),2)
+         }
          else{
           //text4
           body += partlist.text_cmn(ws.clean($(this).html()),4)
@@ -174,23 +177,26 @@ var doCheerio = function (html,uri) {
     }
     //link
     if ($(this).is('a')) {
-      let href = $(this).attr('href')
-      if(href.match(/\.pdf/)){
-        let pdfPath = href.split('/').slice(1,-1).join('/')+'/'
-        ws.createDir('/'+dPDF+pdfPath)
-        // ws.getPDF(root+href,{directory:dPDF+pdfPath},(err)=>{ if(err) throw err})
-      }
-      if (!$(this).parent().is('li')) {
-        //link2
-        if ($(this).parent().is('.iconLink01')) {
-          if ($(this).attr('target')) {
-            body += partlist.links_02($(this).text(), $(this).attr('href'));
+      if (typeof $(this).attr('href') != 'undefined') {
+        let href = $(this).attr('href')
+
+        if (href.match(/\.pdf/)) {
+          let pdfPath = href.split('/').slice(1, -1).join('/') + '/'
+          ws.createDir('/' + dPDF + pdfPath)
+          // ws.getPDF(root+href,{directory:dPDF+pdfPath},(err)=>{ if(err) throw err})
+        }
+        if (!$(this).parent().is('li')) {
+          //link2
+          if ($(this).parent().is('.iconLink01')) {
+            if ($(this).attr('target')) {
+              body += partlist.links_02($(this).text(), $(this).attr('href'));
+            }
           }
         }
-      }
-      /// CSR contact
-      if($(this).attr('href').match(/\/csr\/contact/)){
-        body +=  '<div class="box-cmn-links-03 just-right"><a href="/csr/contact/" class="link-cmn-01">ご意見・ご感想はこちらへ</a></div>'
+        /// CSR contact
+        if ($(this).attr('href').match(/\/csr\/contact/)) {
+          body += '<div class="box-cmn-links-03 just-right"><a href="/csr/contact/" class="link-cmn-01">ご意見・ご感想はこちらへ</a></div>'
+        }
       }
     }
     if($(this).is('.twoColumn')){
@@ -239,8 +245,11 @@ var doCheerio = function (html,uri) {
         body += '<ul class="list-links-01 column">'
         $(this).children().each(function () {
           $(this).children().remove('img')
-          let hasPDF = $(this).children().attr('href').match(/\.pdf/);
-          let hasDOC = $(this).children().attr('href').match(/\.doc/);
+          let hasPDF = false,hasDOC =false
+          if($(this).children().attr('href') == "undefined") {
+           hasPDF = $(this).children().attr('href').match(/\.pdf/);
+           hasDOC = $(this).children().attr('href').match(/\.doc/);
+          }
           if (hasPDF) {
             $(this).children().addClass('link-pdf-01')
             body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
