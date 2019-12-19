@@ -137,7 +137,7 @@ var doCheerio = function (html,uri) {
 
           }
           else{
-            // ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+            ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
             body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
           }
         }
