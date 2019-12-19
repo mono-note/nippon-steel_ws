@@ -208,7 +208,23 @@ var doCheerio = function (html,uri) {
     if($(this).is('iframe')){
       let src = $(this).attr('src')
       body += partlist.iframe_map(src)
-
+    }
+    if($(this).is('.newsBox01')){
+      body += '<div class="box-cmn-title-01 bdb"><h2 class="ttl-cmn-02">新着情報</h2><div class="box-title-in"><div class="box-title-left"></div><div class="box-title-right"><ul class="list-links-01"><li><a href="/works/'+dirlist[1]+'/news/index.html" class="link-cmn-01">お知らせ一覧</a></li></ul></div></div></div>'
+    }
+    if($(this).is('.newsList01')){
+      let tmp ='<ul class="list-cmn-news-01">'
+      $(this).children().each(function(){
+        if($(this).is('dt')){
+          tmp+= '<li><div class="box-text"><p class="txt-date">'+ws.clean($(this).html())+'</p></div>'
+        }
+        if($(this).is('dd')){
+          let src = $(this).children().attr('href')
+          let txt = $(this).children().html()
+          tmp+= '<p class="text-01"><a href="'+src+'">'+ws.clean(txt)+'</a></p></li>'
+        }
+      })
+      body += tmp + '</ul>'
     }
     if($(this).is('.twoColumn')){
       if($(this).children().length == 2){
@@ -283,6 +299,15 @@ var doCheerio = function (html,uri) {
         body += '<ul class="list-cmn-01">'
         $(this).each(function () {
           body += ws.clean($(this).html())
+        })
+        body += '</ul>'
+      }
+      if($(this).is('.floatLink01')){
+        body += '<ul class="list-links-01">'
+        $(this).children().each(function(){
+          let txt =$(this).text()
+          let href = $(this).children().attr('href')
+          body += '<li><a href="'+href+'" class="link-cmn-01">'+txt+'</a></li>'
         })
         body += '</ul>'
       }
