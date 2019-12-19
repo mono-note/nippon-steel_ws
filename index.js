@@ -203,6 +203,9 @@ var doCheerio = function (html,uri) {
         if ($(this).attr('href').match(/\/csr\/contact/)) {
           body += '<div class="box-cmn-links-03 just-right"><a href="/csr/contact/" class="link-cmn-01">ご意見・ご感想はこちらへ</a></div>'
         }
+        if ($(this).attr('href').match(/\/en\/contact/)) {
+          body += '<div class="box-cmn-links-03 just-right"><a href="/en/contact/" class="link-cmn-01">We welcome your feedback</a></div>'
+        }
       }
     }
     if($(this).is('iframe')){
