@@ -137,7 +137,7 @@ var doCheerio = function (html,uri) {
 
           }
           else{
-            ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
+            // ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
             body += partlist.image_01(src.replace(/images/g, 'img'), alt, cap)
           }
         }
@@ -273,17 +273,18 @@ var doCheerio = function (html,uri) {
         $(this).children().each(function () {
           $(this).children().remove('img')
           let hasPDF = false,hasDOC =false
-          if($(this).children().attr('href') == "undefined") {
-           hasPDF = $(this).children().attr('href').match(/\.pdf/);
-           hasDOC = $(this).children().attr('href').match(/\.doc/);
-          }
-          if (hasPDF) {
-            $(this).children().addClass('link-pdf-01')
-            body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
 
-          } else if (hasDOC) {
-            $(this).children().addClass('link-doc-01')
-            body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
+          if(typeof $(this).children().attr('href') != "undefined") {
+            hasPDF = $(this).children().attr('href').match(/\.pdf/);
+            hasDOC = $(this).children().attr('href').match(/\.doc/);
+            if (hasPDF) {
+              $(this).children().addClass('link-pdf-01')
+              body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
+
+            } else if (hasDOC) {
+              $(this).children().addClass('link-doc-01')
+              body += '<li>' + ws.clean($(this).html()).replace(/\<\/a>/g, '') + '</a></li>'
+            }
           }
         })
         body += '</ul>'
