@@ -219,6 +219,16 @@ const card_text_and_image_right = (src,alt,cap,txt)=>{
 const card_text_and_image_left = (src,alt,cap,txt)=>{
   return '<div class="box-card-detail mod-image-left"><div class="box-image"><figure class="image-detail"><img src="'+src+'" alt="'+alt+'"><figcaption class="image-caption">'+cap+'</figcaption></figure></div> <div class="box-text">'+txt+'</div></div>'
 }
+const iframe_map = (src)=>{
+  return '<div class="box-map-iframe"><iframe src="'+src+'" height="300"></iframe></div>'
+}
+const anchor_01 = (link)=>{
+  let li =''
+  link.forEach(function(v){
+    li += '<li><a href="'+v.href+'" class="anchor-link js-scroll">'+v.txt+'</a></li>'
+  })
+  return '<div class="box-anchor-link-01"><p class="txt-anchor-link-01 js-anchor-select">'+link[0].txt+'</p><ul class="list-anchor-link-01">'+li+'</ul></div>'
+}
 
 module.exports = {
   box_title_1,
@@ -230,5 +240,7 @@ module.exports = {
   image_01,
   title_cmn,
   title_2_bdb,
-  card_link_03
+  card_link_03,
+  iframe_map,
+  anchor_01
 };

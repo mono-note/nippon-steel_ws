@@ -50,7 +50,7 @@ var doCheerio = function (html,uri) {
   if(boxReset){$('.relatedBox01').remove()}
   let body =''
   let hasAncher = false;
-  let g = ''
+  let nCounter = 1
 
   $('*').each(function(){
     if($(this).is('h1.heading01')){
@@ -64,13 +64,13 @@ var doCheerio = function (html,uri) {
             href:'#anc'+ws.zeroPad(i+1)
           })
         })
-        body += partlist_anchor_01(anclist)
+        body += partlist.anchor_01(anclist)
         hasAncher= true;
     }
 
     if($(this).is('h2.heading02')){
       if(hasAncher){
-        body += partlist.title_2_bdb($(this).text(),"anc")
+        body += partlist.title_2_bdb($(this).text(),"anc"+ws.zeroPad(nCounter++))
       }else{
         body += partlist.title_2_bdb($(this).text(),'')
       }
@@ -188,9 +188,15 @@ var doCheerio = function (html,uri) {
         if (!$(this).parent().is('li')) {
           //link2
           if ($(this).parent().is('.iconLink01')) {
-            if ($(this).attr('target')) {
-              body += partlist.links_02($(this).text(), $(this).attr('href'));
+            if(href.match(/maps\.google/)){
+             body+= partlist.text_cmn(partlist.links_02($(this).text(), $(this).attr('href')),4)
+
+            }else{
+              if ($(this).attr('target')) {
+                body += partlist.links_02($(this).text(), $(this).attr('href'));
+              }
             }
+
           }
         }
         /// CSR contact
@@ -198,6 +204,11 @@ var doCheerio = function (html,uri) {
           body += '<div class="box-cmn-links-03 just-right"><a href="/csr/contact/" class="link-cmn-01">ご意見・ご感想はこちらへ</a></div>'
         }
       }
+    }
+    if($(this).is('iframe')){
+      let src = $(this).attr('src')
+      body += partlist.iframe_map(src)
+
     }
     if($(this).is('.twoColumn')){
       if($(this).children().length == 2){
@@ -293,13 +304,7 @@ var doCheerio = function (html,uri) {
 
 //////////////////////////////// partlist
 
-partlist_anchor_01 = (link)=>{
-  let li =''
-  link.forEach(function(v){
-    li += '<li><a href="'+v.href+'" class="anchor-link js-scroll">'+v.txt+'</a></li>'
-  })
-  return '<div class="box-anchor-link-01"><p class="txt-anchor-link-01 js-anchor-select">'+link[0].txt+'</p><ul class="list-anchor-link-01">'+li+'</ul></div>'
-}
+
 
 partlist_list = (txt, n) => {
   let arr = ''
