@@ -84,6 +84,13 @@ var doCheerio = function (html,uri) {
     if($(this).is('h5.heading05')){
       body += partlist.title_cmn($(this).text(),5)
     }
+    if($(this).is('.spLinkCol01 .heading') || $(this).is('.spLinkBox01 .heading')){
+      if($(this).find('a')){
+      let txt = ws.clean($(this).find('a').html()).replace(/\<br\>/g,'')
+      let href = $(this).find('a').attr('href')
+      body+='<div class="inner"><a href="'+href+'" class="btn-cmn-02">'+txt+'</a>'
+      }
+    }
     if($(this).is('p')){
       if (!$(this).children().is('a')
        && !$(this).is('.caption01')) {
@@ -115,13 +122,13 @@ var doCheerio = function (html,uri) {
       {
         if(typeof alt == "undefined"){alt = ''}
         if (!src.match(/common/)) {
-          if($(this).parents('.figureContainer').html() && $(this).parents('.threeFrameColumn').length==0){
+        if($(this).parents('.figureContainer').html() && $(this).parents('.threeFrameColumn').length==0){
+
             let figureCon = $(this).parents('.figureContainer')
             if(figureCon.children().hasClass('figureLeft')){
               let txt = figureCon.children('.detail').html()?ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">'):''
               ws.getIMG(root + src, createPath.replace('/', '') + 'img/')
               body += partlist.card_text_and_image_left(src.replace(/images/g, 'img'),alt,cap,txt)
-
             }
             else if(figureCon.children().hasClass('figureRight')){
               let txt = figureCon.children('.detail').html()?ws.clean(figureCon.children('.detail').html()).replace(/<p>/g,'<p class="txt-detail">'):''
